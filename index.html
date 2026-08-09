@@ -1888,99 +1888,120 @@
   }
 
   /* cross-device broadcast total banner */
+  .broadcast-total-backdrop{
+    display:none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 2099;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  .broadcast-total-backdrop.show{
+    display:block;
+    opacity: 1;
+    pointer-events: auto;
+  }
   .broadcast-total-banner{
     display:none;
     position: fixed;
-    top: 16px;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%) translateY(-30px);
+    transform: translate(-50%, -50%) scale(0.95);
     z-index: 2100;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.25s ease, transform 0.25s ease;
     width: 100%;
-    max-width: 340px;
-    padding: 0 16px;
+    max-width: 480px;
+    padding: 0 20px;
   }
   .broadcast-total-banner.show{
     display:block;
     opacity: 1;
-    transform: translateX(-50%) translateY(0);
+    transform: translate(-50%, -50%) scale(1);
     pointer-events: auto;
   }
   .btb-inner{
     position: relative;
     background: #1c1e22;
-    border-radius: 16px;
-    padding: 18px 20px 16px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    border-radius: 20px;
+    padding: 46px 28px 30px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
   }
   .btb-items{
     display:flex;
     flex-direction:column;
-    gap: 6px;
-    max-height: 220px;
+    gap: 10px;
+    max-height: 40vh;
     overflow-y: auto;
-    margin-bottom: 12px;
+    margin-bottom: 22px;
   }
   .btb-item-row{
     display:flex;
     justify-content:space-between;
-    gap: 10px;
+    gap: 14px;
     font-family:'Archivo', sans-serif;
-    font-size: 13px;
+    font-size: 18px;
     color: #d5d7db;
   }
   .btb-item-name{ flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .btb-item-price{ flex-shrink:0; font-weight:700; color: #fff; }
+  .btb-item-price{ flex-shrink:0; font-weight:700; color: #fff; font-size: 19px; }
   .btb-empty-note{
     font-family:'Archivo', sans-serif;
-    font-size: 12.5px;
+    font-size: 16px;
     color: #9a9da3;
     font-style: italic;
-    margin-bottom: 12px;
+    margin-bottom: 22px;
+    text-align:center;
   }
   .btb-total-row{
     display:flex;
-    justify-content:space-between;
+    flex-direction: column;
     align-items:center;
-    gap: 12px;
-    border-top: 1px solid rgba(255,255,255,0.12);
-    padding-top: 12px;
+    gap: 8px;
+    border-top: 2px solid rgba(255,255,255,0.15);
+    padding-top: 22px;
+    text-align:center;
   }
   .btb-label{
     font-family:'Archivo', sans-serif;
     font-weight: 700;
-    font-size: 12px;
-    letter-spacing: 1px;
+    font-size: 15px;
+    letter-spacing: 2px;
     text-transform: uppercase;
     color: #9a9da3;
   }
   .btb-value{
     font-family:'Archivo', sans-serif;
     font-weight: 800;
-    font-size: 30px;
+    font-size: 64px;
     color: #fff;
     white-space: nowrap;
+    line-height: 1;
   }
   #broadcastTotalCloseBtn{
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 14px;
+    right: 14px;
     border: none;
-    background: rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.12);
     color: #fff;
-    width: 26px; height: 26px;
+    width: 36px; height: 36px;
     border-radius: 50%;
-    font-size: 13px;
+    font-size: 16px;
     line-height: 1;
     cursor: pointer;
     flex-shrink: 0;
+    z-index: 2;
   }
-  #broadcastTotalCloseBtn:hover{ background: rgba(255,255,255,0.2); }
+  #broadcastTotalCloseBtn:hover{ background: rgba(255,255,255,0.22); }
   @media (max-width: 480px){
-    .btb-value{ font-size: 24px; }
-    .btb-inner{ padding: 16px 16px 14px; }
+    .btb-value{ font-size: 44px; }
+    .btb-inner{ padding: 42px 20px 24px; }
+    .btb-item-row{ font-size: 15px; }
+    .btb-item-price{ font-size: 16px; }
   }
 
   /* sticky totals bar */
@@ -2087,8 +2108,7 @@
       <div>
         <p class="cc-title" style="text-align:left;" data-i18n="reg.addItem">ADD ITEM</p>
 
-        <button class="scan-btn" id="registerScanBtn"><span class="scan-icon">▭</span> <span data-i18n="reg.scan">SCAN SKU / BARCODE</span></button>
-        <p class="hint" style="margin-top:6px;" data-i18n="reg.scanHint">Using a physical barcode scanner? Just scan — it works anywhere on this screen, no need to tap the button above.</p>
+        <p class="hint" style="margin-top:6px;" data-i18n="reg.scanHint">Using a physical barcode scanner? Just scan — it works anywhere on this screen.</p>
         <p class="sku-note" id="registerSkuNote" style="display:none;"></p>
 
         <div class="cc-field-group">
@@ -2201,7 +2221,7 @@
     <div class="panel single">
       <p class="section-title">Add / update item</p>
       <p class="hint">Saving with a SKU that already exists overwrites that item's name, price, and tax status.</p>
-      <button class="scan-btn" id="catalogScanBtn"><span class="scan-icon">▭</span> SCAN SKU / BARCODE</button>
+      <p class="hint">Using a physical barcode scanner? Just scan — it works anywhere on this screen.</p>
       <div class="entry-row">
         <div class="field">
           <label>Item name</label>
@@ -2253,7 +2273,7 @@
   <div class="tab-panel hidden" id="tab-stock">
     <div class="panel single">
       <p class="section-title">Scan an item</p>
-      <button class="scan-btn" id="scanBtn"><span class="scan-icon">▭</span> SCAN SKU / BARCODE</button>
+      <p class="hint">Using a physical barcode scanner? Just scan — it works anywhere on this screen.</p>
       <p class="sku-note" id="skuNote" style="display:none;"></p>
 
       <div class="found-card" id="foundCard">
@@ -2596,6 +2616,7 @@
 <!-- Shown on EVERY device logged into this store when someone taps "Show
      Total on All Devices" — synced the same way the shared item database
      and tax rate already are. -->
+<div class="broadcast-total-backdrop" id="broadcastTotalBackdrop"></div>
 <div class="broadcast-total-banner" id="broadcastTotalBanner">
   <div class="btb-inner">
     <button id="broadcastTotalCloseBtn" title="Dismiss">✕</button>
@@ -2611,6 +2632,30 @@
 
 
 <script>
+  /* ============ KEEP SCREEN AWAKE ============
+     Prevents the device from auto-locking/sleeping while this page is open,
+     using the browser's built-in Wake Lock API (supported in Safari 16.4+ on
+     iOS, and all modern Chrome/Edge/Android browsers). It releases itself
+     automatically the moment the tab is closed, navigated away from, or put
+     in the background — no exit button needed, that's just how it works.
+     Fails silently on older/unsupported browsers instead of breaking anything. */
+  let screenWakeLock = null;
+  async function requestScreenWakeLock(){
+    if(!('wakeLock' in navigator)) return; // not supported in this browser — nothing to do
+    try{
+      screenWakeLock = await navigator.wakeLock.request('screen');
+      screenWakeLock.addEventListener('release', () => { screenWakeLock = null; });
+    }catch(e){
+      // Permission denied, battery saver mode, etc. — not critical, just skip it
+    }
+  }
+  requestScreenWakeLock();
+  document.addEventListener('visibilitychange', () => {
+    // Wake locks are auto-released whenever the tab is backgrounded, so it
+    // has to be re-requested every time the tab comes back into view.
+    if(document.visibilityState === 'visible') requestScreenWakeLock();
+  });
+
   /* ============ TAB NAVIGATION ============ */
   const tabButtons = document.querySelectorAll('.tab-btn');
   const tabPanels = {
@@ -3173,7 +3218,7 @@
       'bag.none': 'No bag',
       'reg.addItem': 'ADD ITEM',
       'reg.scan': 'SCAN SKU / BARCODE',
-      'reg.scanHint': "Using a physical barcode scanner? Just scan — it works anywhere on this screen, no need to tap the button above.",
+      'reg.scanHint': "Using a physical barcode scanner? Just scan — it works anywhere on this screen.",
       'reg.itemCost': 'ITEM COST',
       'reg.tapHint': 'Tap Taxable or Non-taxable to add it to cart',
       'reg.addTaxable': '+ Taxable',
@@ -3268,7 +3313,7 @@
       'bag.none': 'Sin bolsa',
       'reg.addItem': 'AGREGAR ARTÍCULO',
       'reg.scan': 'ESCANEAR SKU / CÓDIGO',
-      'reg.scanHint': '¿Usando un escáner de código de barras físico? Solo escanea — funciona en cualquier parte de esta pantalla, no hace falta tocar el botón de arriba.',
+      'reg.scanHint': '¿Usando un escáner de código de barras físico? Solo escanea — funciona en cualquier parte de esta pantalla.',
       'reg.itemCost': 'PRECIO DEL ARTÍCULO',
       'reg.tapHint': 'Toca Gravable o No gravable para agregarlo al carrito',
       'reg.addTaxable': '+ Gravable',
@@ -3501,6 +3546,10 @@
   }
 
   let broadcastBannerHideTimeout = null;
+  function hideBroadcastTotalBanner(){
+    document.getElementById('broadcastTotalBanner').classList.remove('show');
+    document.getElementById('broadcastTotalBackdrop').classList.remove('show');
+  }
   function showBroadcastTotalBanner(total, itemsList){
     const banner = document.getElementById('broadcastTotalBanner');
     document.getElementById('broadcastTotalLabel').textContent = t('reg.totalDue');
@@ -3517,12 +3566,12 @@
       itemsEl.innerHTML = `<div class="btb-empty-note">${t('reg.cartEmpty')}</div>`;
     }
     banner.classList.add('show');
+    document.getElementById('broadcastTotalBackdrop').classList.add('show');
     clearTimeout(broadcastBannerHideTimeout);
-    broadcastBannerHideTimeout = setTimeout(() => banner.classList.remove('show'), 5 * 60 * 1000);
+    broadcastBannerHideTimeout = setTimeout(hideBroadcastTotalBanner, 5 * 60 * 1000);
   }
-  document.getElementById('broadcastTotalCloseBtn').addEventListener('click', () => {
-    document.getElementById('broadcastTotalBanner').classList.remove('show');
-  });
+  document.getElementById('broadcastTotalCloseBtn').addEventListener('click', hideBroadcastTotalBanner);
+  document.getElementById('broadcastTotalBackdrop').addEventListener('click', hideBroadcastTotalBanner);
   document.getElementById('broadcastTotalBtn').addEventListener('click', () => {
     if(!fbDb) return; // cross-device broadcast needs the shared backend to be configured
     const itemsPayload = items.map(it => ({ n: it.name, q: it.qty, p: it.price }));
@@ -3677,7 +3726,6 @@
   const printLastReceiptBtn = document.getElementById('printLastReceiptBtn');
   const quickCashEl = document.getElementById('quickCash');
   const taxRateInputEl = document.getElementById('taxRateInput');
-  const registerScanBtn = document.getElementById('registerScanBtn');
   const registerSkuNote = document.getElementById('registerSkuNote');
 
   async function loadTaxRate(){
@@ -4070,8 +4118,9 @@
 
     items = [];
     cashGivenEl.value = '';
-    resetPaymentMethod();
     resetBagChoice();
+    resetPaymentMethod();
+    renderReceipt(); // guarantees the on-screen total reflects the fully-reset state
     maybeAskBagChoice(); // ready to ask again for the next customer
   }
 
@@ -4102,8 +4151,6 @@
     }
   });
 
-  registerScanBtn.addEventListener('click', () => { scanContext = 'register'; openScanner(); });
-
   /* ============ TAB 2: ITEM DATABASE ============ */
   const catNameEl = document.getElementById('catName');
   const catSkuEl = document.getElementById('catSku');
@@ -4115,11 +4162,8 @@
   const catCancelEditBtn = document.getElementById('catCancelEditBtn');
   const catalogListEl = document.getElementById('catalogList');
   const catalogCountEl = document.getElementById('catalogCount');
-  const catalogScanBtn = document.getElementById('catalogScanBtn');
   let editingSku = null;
   let catTaxableChoice = null; // null = not yet answered, true/false once chosen
-
-  catalogScanBtn.addEventListener('click', () => { scanContext = 'catalog'; openScanner(); });
 
   function setCatTaxableChoice(value){
     catTaxableChoice = value;
@@ -4822,7 +4866,6 @@
 
 
   /* ============ TAB 3: SCAN & STOCK ============ */
-  const scanBtn = document.getElementById('scanBtn');
   const scanOverlay = document.getElementById('scanOverlay');
   const scanVideo = document.getElementById('scanVideo');
   const scanCloseBtn = document.getElementById('scanCloseBtn');
@@ -5021,7 +5064,6 @@
     hideSkuNotFoundPopup();
   }
 
-  scanBtn.addEventListener('click', () => { scanContext = 'stock'; openScanner(); });
   scanCloseBtn.addEventListener('click', closeScanner);
   document.getElementById('scanCancelBtn').addEventListener('click', closeScanner);
   scanOverlay.addEventListener('click', (e) => { if(e.target === scanOverlay) closeScanner(); });
@@ -6274,6 +6316,33 @@
     // sales tab: scanning has no action there, ignore
   }
 
+  let hwScanFinalizeTimeout = null;
+  const HW_SCAN_FINALIZE_IDLE_MS = 150; // if no more keys arrive this soon after a fast run, treat it as a finished scan even with no Enter/Tab — some scanners are configured without one
+
+  function restoreHwScanPreValue(){
+    const active = document.activeElement;
+    if(active && active === hwScanPreEl && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA')){
+      active.value = hwScanPreValue || '';
+      active.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+    hwScanPreEl = null;
+    hwScanPreValue = null;
+  }
+
+  function finalizeHwScan(){
+    clearTimeout(hwScanFinalizeTimeout);
+    if(hwScanBuffer.length >= HW_SCAN_MIN_LENGTH){
+      const code = hwScanBuffer.join('');
+      hwScanBuffer = [];
+      restoreHwScanPreValue();
+      applyHardwareScan(code);
+    } else {
+      hwScanBuffer = [];
+      hwScanPreEl = null;
+      hwScanPreValue = null;
+    }
+  }
+
   document.addEventListener('keydown', (e) => {
     // Don't interfere while the camera scanner modal or any blocking popup is open —
     // those have their own dedicated input handling, and shouldn't be bypassed by a scan.
@@ -6295,25 +6364,10 @@
     const isPrintable = e.key.length === 1;
 
     if(isEnterKey){
+      clearTimeout(hwScanFinalizeTimeout);
       if(hwScanBuffer.length >= HW_SCAN_MIN_LENGTH && gap <= HW_SCAN_MAX_GAP_MS){
-        const code = hwScanBuffer.join('');
-        hwScanBuffer = [];
-
-        // The characters typed faster than we could react likely landed in whatever
-        // input had focus — and may have been reformatted along the way (e.g. the cost
-        // field turns digits into a currency value as you type). So instead of trying to
-        // string-match the scanned code against the current (possibly reformatted) value,
-        // just restore that field to exactly what it held right before the scan started.
-        const active = document.activeElement;
-        if(active && active === hwScanPreEl && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA')){
-          active.value = hwScanPreValue || '';
-          active.dispatchEvent(new Event('input', { bubbles: true }));
-        }
-        hwScanPreEl = null;
-        hwScanPreValue = null;
-
         e.preventDefault();
-        applyHardwareScan(code);
+        finalizeHwScan();
       } else {
         hwScanBuffer = [];
         hwScanPreEl = null;
@@ -6331,12 +6385,28 @@
         hwScanPreValue = (active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA')) ? active.value : null;
       } else {
         hwScanBuffer = [...hwScanBuffer, e.key];
+        // Once a run of keystrokes is confirmed to be arriving at scanner speed,
+        // stop it from actually landing in whatever field is focused — this is
+        // what protects the price field (or any field) even when the scanner
+        // never sends a terminating Enter/Tab at all, which some are configured
+        // to do. The first few characters, before this threshold is reached,
+        // still get cleanly wiped out by the pre-scan-value restore once the
+        // scan is finalized below.
+        if(hwScanBuffer.length >= HW_SCAN_MIN_LENGTH){
+          e.preventDefault();
+        }
       }
+      // Fallback finalize: if this scanner sends no terminator, this fires once
+      // the burst goes quiet, so the scan still completes instead of just
+      // sitting half-blocked in the buffer forever.
+      clearTimeout(hwScanFinalizeTimeout);
+      hwScanFinalizeTimeout = setTimeout(finalizeHwScan, HW_SCAN_FINALIZE_IDLE_MS);
     } else {
       // Backspace, arrows, Escape, etc. — breaks any in-progress fast sequence
       hwScanBuffer = [];
       hwScanPreEl = null;
       hwScanPreValue = null;
+      clearTimeout(hwScanFinalizeTimeout);
     }
   });
 
